@@ -101,6 +101,7 @@ module.exports = function (grunt) {
     var options = this.options({
       type: this.target
     });
+    var blockReplacements = options.blockReplacements || {};
 
     debug('Looking at %s target', this.target);
     var patterns;
@@ -119,7 +120,7 @@ module.exports = function (grunt) {
     // var locator = options.revmap ? grunt.file.readJSON(options.revmap) : function (p) { return grunt.file.expand({filter: 'isFile'}, p); };
     var locator = getLocator(grunt, options);
     var revvedfinder = new RevvedFinder(locator);
-    var handler = new FileProcessor(patterns, revvedfinder, function (msg) { grunt.log.writeln(msg);});
+    var handler = new FileProcessor(patterns, revvedfinder, function (msg) { grunt.log.writeln(msg);}, blockReplacements);
 
     this.files.forEach(function (fileObj) {
       var files = grunt.file.expand({nonull: true}, fileObj.src);
